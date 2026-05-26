@@ -80,4 +80,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // ==========================================================================
+    // Custom Cursor Setup (Premium Desktop Only)
+    // ==========================================================================
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const dot = document.createElement('div');
+        const outline = document.createElement('div');
+        dot.className = 'custom-cursor-dot';
+        outline.className = 'custom-cursor-outline';
+        document.body.appendChild(dot);
+        document.body.appendChild(outline);
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
+        const speed = 0.15; // Smooth trailing speed factor
+
+        window.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        });
+
+        function animateOutline() {
+            outlineX += (mouseX - outlineX) * speed;
+            outlineY += (mouseY - outlineY) * speed;
+            outline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0)`;
+            requestAnimationFrame(animateOutline);
+        }
+        animateOutline();
+
+        // Event delegation for dynamic hover bindings (supports AJAX/fetched partials)
+        window.addEventListener('mouseover', function(e) {
+            if (e.target.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot')) {
+                dot.classList.add('hovering');
+                outline.classList.add('hovering');
+            }
+        });
+
+        window.addEventListener('mouseout', function(e) {
+            const interactive = e.target.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot');
+            if (interactive) {
+                const related = e.relatedTarget;
+                if (!related || !related.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot')) {
+                    dot.classList.remove('hovering');
+                    outline.classList.remove('hovering');
+                }
+            }
+        });
+    }
 });

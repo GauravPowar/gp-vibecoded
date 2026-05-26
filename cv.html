@@ -481,6 +481,65 @@
             }
             .time-col { padding-top: 0; }
         }
+
+        /* Custom Cursor Styling (Premium Desktop Only) */
+        .custom-cursor-dot, .custom-cursor-outline {
+            display: none;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            body, a, button, select, input, textarea, .pill, .control-dot, .btn, .timeline-item, .card {
+                cursor: none !important;
+            }
+            
+            .custom-cursor-dot, .custom-cursor-outline {
+                position: fixed;
+                pointer-events: none;
+                z-index: 999999;
+                border-radius: 50%;
+                display: block;
+                transition: width 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                            height 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                            top 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                            left 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                            background-color 0.25s ease, 
+                            border-color 0.25s ease;
+            }
+            
+            .custom-cursor-dot {
+                width: 6px;
+                height: 6px;
+                top: -3px;
+                left: -3px;
+                background-color: var(--accent); /* CV accent color */
+            }
+            
+            .custom-cursor-outline {
+                width: 40px;
+                height: 40px;
+                top: -20px;
+                left: -20px;
+                border: 1px solid var(--accent);
+                background-color: transparent;
+            }
+            
+            .custom-cursor-dot.hovering {
+                width: 0px;
+                height: 0px;
+                top: 0px;
+                left: 0px;
+            }
+            
+            .custom-cursor-outline.hovering {
+                width: 56px;
+                height: 56px;
+                top: -28px;
+                left: -28px;
+                border-color: var(--accent);
+                background-color: rgba(245, 158, 11, 0.08); /* Warm amber trail glow */
+                box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+            }
+        }
     </style>
 </head>
 <body>
@@ -671,6 +730,57 @@
             root.setAttribute('data-theme', targetTheme);
             localStorage.setItem('theme', targetTheme);
         });
+
+        // ==========================================================================
+        // Custom Cursor Setup (Premium Desktop Only)
+        // ==========================================================================
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            const dot = document.createElement('div');
+            const outline = document.createElement('div');
+            dot.className = 'custom-cursor-dot';
+            outline.className = 'custom-cursor-outline';
+            document.body.appendChild(dot);
+            document.body.appendChild(outline);
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let outlineX = 0;
+            let outlineY = 0;
+            const speed = 0.15; // Smooth trailing speed factor
+
+            window.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+            });
+
+            function animateOutline() {
+                outlineX += (mouseX - outlineX) * speed;
+                outlineY += (mouseY - outlineY) * speed;
+                outline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0)`;
+                requestAnimationFrame(animateOutline);
+            }
+            animateOutline();
+
+            // Event delegation for dynamic hover bindings
+            window.addEventListener('mouseover', function(e) {
+                if (e.target.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot')) {
+                    dot.classList.add('hovering');
+                    outline.classList.add('hovering');
+                }
+            });
+
+            window.addEventListener('mouseout', function(e) {
+                const interactive = e.target.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot');
+                if (interactive) {
+                    const related = e.relatedTarget;
+                    if (!related || !related.closest('a, button, .btn, .pill, .timeline-item, .card, .control-dot')) {
+                        dot.classList.remove('hovering');
+                        outline.classList.remove('hovering');
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
