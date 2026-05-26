@@ -131,4 +131,66 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // ==========================================================================
+    // Premium Glassmorphic PDF Modal Viewer logic
+    // ==========================================================================
+    function openPDFModal(pdfUrl) {
+        // Double check: if it's mobile, we fallback to native new-tab opening!
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) {
+            window.open(pdfUrl, '_blank');
+            return;
+        }
+
+        const modal = document.createElement('div');
+        modal.className = 'pdf-modal';
+        modal.innerHTML = `
+            <div class="pdf-modal-backdrop"></div>
+            <div class="pdf-modal-container">
+                <div class="pdf-modal-header">
+                    <h3>Curriculum Vitae</h3>
+                    <div class="pdf-modal-actions">
+                        <a href="${pdfUrl}" class="btn primary-btn" download style="padding: 8px 18px; font-size: 0.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+                        <button class="pdf-modal-close" aria-label="Close Preview">&times;</button>
+                    </div>
+                </div>
+                <div class="pdf-modal-body">
+                    <iframe src="${pdfUrl}#toolbar=0&navpanes=0" width="100%" height="100%" frameborder="0"></iframe>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden'; // Lock main scroll
+
+        const closeModal = () => {
+            modal.classList.add('closing');
+            setTimeout(() => {
+                modal.remove();
+                document.body.style.overflow = ''; // Unlock main scroll
+            }, 300);
+        };
+
+        modal.querySelector('.pdf-modal-close').addEventListener('click', closeModal);
+        modal.querySelector('.pdf-modal-backdrop').addEventListener('click', closeModal);
+
+        // Escape key closes modal
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                window.removeEventListener('keydown', handleKeyDown);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+    }
+
+    // PDF click delegation (automatically catches any link to CV.pdf on the site)
+    window.addEventListener('click', function(e) {
+        const resumeLink = e.target.closest('a[href*="docs/CV.pdf"]');
+        if (resumeLink) {
+            e.preventDefault();
+            const pdfUrl = resumeLink.getAttribute('href');
+            openPDFModal(pdfUrl);
+        }
+    });
 });

@@ -1050,3 +1050,122 @@ footer p {
         box-shadow: 0 0 15px rgba(217, 119, 6, 0.15);
     }
 }
+
+/* ==========================================================================
+   Premium Glassmorphic PDF Modal Previewer
+   ========================================================================== */
+.pdf-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pdfFadeIn 0.3s ease forwards;
+}
+
+.pdf-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 9, 12, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.pdf-modal-container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 1000px;
+    height: 85vh;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    box-shadow: var(--box-shadow-hover);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: pdfSlideUp 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.pdf-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.pdf-modal-header h3 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.pdf-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pdf-modal-close {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 2.2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.pdf-modal-close:hover {
+    color: var(--accent-color);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.pdf-modal-body {
+    flex: 1;
+    background-color: #525659; /* Standard reader background for PDF contrast */
+    position: relative;
+}
+
+.pdf-modal.closing {
+    animation: pdfFadeOut 0.3s ease forwards;
+}
+
+.pdf-modal.closing .pdf-modal-container {
+    animation: pdfSlideDownOut 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes pdfSlideUp {
+    from { opacity: 0; transform: translateY(50px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pdfSlideDownOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(50px) scale(0.96); }
+}
+
+@keyframes pdfFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pdfFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
