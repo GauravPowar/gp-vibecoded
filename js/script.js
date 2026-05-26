@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // PDF click delegation (automatically catches any link to CV.pdf on the site)
     window.addEventListener('click', function(e) {
-        const resumeLink = e.target.closest('a[href*="docs/CV.pdf"]');
+        const resumeLink = e.target.closest('a[href*="docs/CV.pdf"]:not([download])');
         if (resumeLink) {
             e.preventDefault();
             const pdfUrl = resumeLink.getAttribute('href');
