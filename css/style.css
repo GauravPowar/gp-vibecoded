@@ -4,12 +4,12 @@
   Palette: Botanical Emerald Green & Cellular Copper/Amber
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
     /* 1. Global Typography */
-    --font-sans: 'Outfit', sans-serif;
-    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'Lora', serif;
     --font-mono: 'JetBrains Mono', monospace;
 
     /* 2. Light Theme Variables (Default) */
@@ -213,6 +213,102 @@ section {
     transform: translateY(-5px);
     box-shadow: var(--box-shadow-hover);
     border-color: rgba(var(--primary-color), 0.2);
+}
+
+/* Glassmorphism Window Layout Overlay */
+.glass-window {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    border-radius: 24px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.glass-window:hover {
+    box-shadow: var(--box-shadow-hover);
+}
+
+/* Simulated OS Dashboard Toolbar */
+.toolbar {
+    height: 52px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.015);
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+    width: 100px;
+}
+
+.control-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.window-controls:hover .control-dot {
+    transform: scale(1.1);
+}
+
+.dot-close { background-color: #ff5f56; border: 1px solid #e0443e; }
+.dot-min { background-color: #ffbd2e; border: 1px solid #dea123; }
+.dot-max { background-color: #27c93f; border: 1px solid #1aab29; }
+
+.toolbar-center {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.toolbar-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100px;
+}
+
+/* Glassmorphic Window Content Wrapper */
+.window-content {
+    padding: 60px 80px;
+    position: relative;
+    z-index: 5;
+}
+
+/* Mobile responsive fixes to ensure absolute compatibility and touch usability */
+@media (max-width: 768px) {
+    .glass-window {
+        margin: 20px auto;
+        border-radius: 16px;
+    }
+    .window-content {
+        padding: 30px 20px;
+    }
+    .toolbar {
+        padding: 0 1rem;
+    }
 }
 
 /* Buttons */
