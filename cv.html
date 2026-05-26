@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaurav Powar - Digital CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* Light Mode Variables */
+            --bg-color: #f7f6f2;
+            --window-bg: rgba(255, 255, 255, 0.75);
+            --window-border: rgba(255, 255, 255, 0.5);
+            --text-main: #1d1d1f;
+            --text-muted: #52525b;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --accent: #b45309;
+            --accent-hover: #d97706;
+            --pill-bg: rgba(255, 255, 255, 0.6);
+            --pill-border: rgba(0, 0, 0, 0.05);
+            --pill-hover-bg: rgba(0, 0, 0, 0.04);
+            --link-color: #1d1d1f;
+            --mesh-color-1: rgba(44, 140, 111, 0.15);
+            --mesh-color-2: rgba(217, 119, 6, 0.12);
+            --mesh-color-3: rgba(6, 182, 212, 0.1);
+            
+            /* Typography */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Variables */
+            --bg-color: #08090c;
+            --window-bg: rgba(18, 22, 31, 0.65);
+            --window-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f3f4f6;
+            --text-muted: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent: #f59e0b;
+            --accent-hover: #fcd34d;
+            --pill-bg: rgba(255, 255, 255, 0.05);
+            --pill-border: rgba(255, 255, 255, 0.1);
+            --pill-hover-bg: rgba(255, 255, 255, 0.1);
+            --link-color: #f3f4f6;
+            --mesh-color-1: rgba(86, 171, 145, 0.25);
+            --mesh-color-2: rgba(245, 158, 11, 0.18);
+            --mesh-color-3: rgba(6, 182, 212, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            transition: background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            font-size: 16px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            transition: background-color 0.6s ease;
+        }
+
+        .bg-mesh::before, .bg-mesh::after, .bg-mesh .blob {
+            content: '';
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out alternate;
+            transition: background-color 0.6s ease;
+        }
+
+        .bg-mesh::before {
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: var(--mesh-color-1);
+            animation-delay: 0s;
+        }
+
+        .bg-mesh::after {
+            bottom: -10%; right: -10%;
+            width: 60vw; height: 50vw;
+            background: var(--mesh-color-2);
+            animation-delay: -5s;
+        }
+
+        .bg-mesh .blob {
+            top: 40%; left: 40%;
+            width: 40vw; height: 40vw;
+            background: var(--mesh-color-3);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5%, 10%) scale(1.1); }
+            66% { transform: translate(-5%, 5%) scale(0.9); }
+            100% { transform: translate(0, -10%) scale(1); }
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 860px;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Text */
+        .floating-header {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            animation: slideIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .floating-header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .floating-header p {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Glassmorphic Window */
+        .cv-window {
+            background-color: var(--window-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 80px rgba(0,0,0,0.07), 
+                0 2px 10px rgba(0,0,0,0.03),
+                inset 0 1px 0 var(--window-border);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            height: 52px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            justify-content: space-between;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+        }
+
+        .window-controls:hover .control-dot {
+            transform: scale(1.1);
+        }
+
+        .dot-close { background-color: #ff5f56; border: 1px solid #e0443e; }
+        .dot-min { background-color: #ffbd2e; border: 1px solid #dea123; }
+        .dot-max { background-color: #27c93f; border: 1px solid #1aab29; }
+
+        .toolbar-center {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            opacity: 0.8;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .toolbar-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-main);
+            background: var(--pill-hover-bg);
+            transform: rotate(15deg);
+        }
+
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 4rem 5rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .content::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 10px 0;
+        }
+        .content::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+        .content::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Typography Hierarchy */
+        section {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-family: var(--font-sans);
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+
+        h4 {
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            color: var(--text-main);
+            font-weight: 300;
+            font-size: 1.05rem;
+        }
+
+        .note-text {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            opacity: 0.9;
+        }
+
+        /* Links & Interactive Elements */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+            border-bottom-color: transparent;
+        }
+
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background-color: var(--pill-bg);
+            border: 1px solid var(--pill-border);
+            border-radius: 12px;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .pill:hover {
+            background-color: var(--pill-hover-bg);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Experience Timeline */
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            background: var(--pill-bg);
+            border-color: var(--border-color);
+            transform: translateX(4px);
+        }
+
+        .time-col {
+            min-width: 140px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-top: 4px;
+        }
+
+        .desc-col h5 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: var(--text-main);
+        }
+
+        .desc-col .subtitle {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .desc-col p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Input Mockup */
+        .interactive-box {
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.02);
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            transition: border-color 0.3s;
+        }
+        
+        .interactive-box:hover {
+            border-color: var(--text-muted);
+        }
+
+        .blinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--accent);
+            animation: blink 1.2s step-end infinite;
+            margin-left: 6px;
+        }
+
+        @keyframes blink { 
+            50% { opacity: 0; } 
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 2rem 1rem; }
+            .floating-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+            .floating-header h1 { font-size: 2.5rem; }
+            .content { padding: 2rem; }
+            .timeline-item {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .time-col { padding-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh">
+        <div class="blob"></div>
+    </div>
+
+    <div class="wrapper">
+        <div class="floating-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h1>Gaurav Powar</h1>
+                <p>Researcher &bull; Science Communicator</p>
+            </div>
+            <a href="index.html" class="pill" style="margin-bottom: 5px; border-radius: 30px; font-size: 0.8rem; padding: 6px 16px;"><i class="fas fa-arrow-left"></i> Home</a>
+        </div>
+
+        <div class="cv-window">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="window-controls">
+                    <div class="control-dot dot-close" onclick="window.location.href='index.html'"></div>
+                    <div class="control-dot dot-min"></div>
+                    <div class="control-dot dot-max"></div>
+                </div>
+                
+                <div class="toolbar-center">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                    cv.md
+                </div>
+
+                <div class="toolbar-right">
+                    <button class="icon-btn" id="theme-btn" aria-label="Toggle Theme">
+                        <!-- Theme Icon -->
+                        <svg id="moon-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" style="display: none;">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                
+                <section>
+                    <h4>Current Thoughts</h4>
+                    <p class="note-text">"Investigating the dose-dependent dual role of Apigenin in hepatic cells and mapping out MAPK pathway mechanics under Dr. Prabhat Singh."<br><span style="font-size: 0.85rem; font-family: var(--font-mono); font-style: normal;">— 10:15 AM IST, May 27th, 2026</span></p>
+                </section>
+
+                <section>
+                    <h2>Welcome to my digital space</h2>
+                    <p>I’m an undergraduate researcher at IISER Berhampur pursuing an Integrated BS-MS in Pure Science. My academic path splits into a clear <strong>current focus</strong> in Molecular Toxicology &amp; Hepatology (studying bio-active compounds in liver health), and a <strong>long-term goal</strong> in Gene Editing &amp; Metabolic Disorders.</p>
+                    <p>Science, for me, is not just about research; it's about sharing wonder and knowledge with others. <em>"Every disease that’s with us is caused by DNA. And every disease can be fixed by DNA."</em></p>
+                    
+                    <div class="pill-container">
+                        <a href="docs/CV.pdf" class="pill" download><i class="fas fa-file-pdf"></i> Download Resume <span style="font-size: 0.75rem; opacity: 0.7; margin-left: 5px;">(Updated May 2026)</span></a>
+                        <a href="https://www.linkedin.com/in/gauravpowarin/" class="pill" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        <a href="https://www.researchgate.net/profile/Gaurav-Powar/" class="pill" target="_blank"><i class="fa-brands fa-researchgate"></i> ResearchGate</a>
+                        <a href="mailto:contact@gauravpowar.space" class="pill"><i class="fas fa-envelope"></i> Reach Out</a>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Education & Research</h2>
+                    
+                    <div class="timeline-item">
+                        <div class="time-col">May '26 — Present</div>
+                        <div class="desc-col">
+                             <h5>Research Intern, DBS</h5>
+                             <p class="subtitle">IISER Berhampur</p>
+                             <p>Investigating the "Dual Role of Apigenin in Liver Health: Elucidating Hepatoprotective versus Hepatotoxic Effects through Mechanistic Pathways" under the supervision of Dr. Prabhat Singh (Scientific Officer).</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time-col">Dec '25 — Feb '26</div>
+                        <div class="desc-col">
+                             <h5>Project Research Intern</h5>
+                             <p class="subtitle">ICMR-National Institute of Epidemiology, Chennai</p>
+                             <p>Collaborated under Dr. Joshua Chadwick in the Non-Communicable Disease division. Analyzed biostatistics models for POCT devices and diabetes epidemiology.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time-col">May '25 — Jun '25</div>
+                        <div class="desc-col">
+                             <h5>Clinical Research Observer</h5>
+                             <p class="subtitle">Excel Endocrine Centre, Kolhapur</p>
+                             <p>Observed complex endocrine case files and documented gestational and type 2 diabetes cohorts.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time-col">Sep '24 — Present</div>
+                        <div class="desc-col">
+                            <h5>Integrated BS-MS, Pure Science</h5>
+                            <p class="subtitle">IISER Berhampur</p>
+                            <p>Currently pursuing an integrated degree. Exploring interdisciplinary science at the intersection of biochemistry, metabolic modeling, and molecular toxicology.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time-col">Jun '22 — Apr '24</div>
+                        <div class="desc-col">
+                            <h5>HSC, Science</h5>
+                            <p class="subtitle">B.M. Rote Junior College</p>
+                            <p>State level debate championship runner-up 2023. Model United Nations and robotics competitor.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Outreach & Leadership</h2>
+                    
+                    <div class="timeline-item">
+                        <div class="time-col">May '26 — Present</div>
+                        <div class="desc-col">
+                            <h5>Publications &amp; Outreach Council</h5>
+                            <p class="subtitle">IISER Berhampur</p>
+                            <p>Appointed as a member of the council, directing scientific publication reviews and coordinating digital outreach strategy to publicize science discoveries.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="time-col">Sep '24 — Present</div>
+                        <div class="desc-col">
+                            <h5>Jigyansa, Episteme &amp; VDAC</h5>
+                            <p class="subtitle">Science Communication &amp; Development</p>
+                            <p>Passionate about making science accessible and breaking language barriers. Coordinating bilingual proofreading (English/Odia) and running magazine social media channels.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="interactive-box">
+                        Type to explore research models... <span class="blinking-cursor"></span>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const themeBtn = document.getElementById('theme-btn');
+        const root = document.documentElement;
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        
+        // Ensure smooth transition only after initial load to prevent flashing
+        setTimeout(() => {
+            document.body.style.transition = 'background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+        }, 100);
+
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            root.setAttribute('data-theme', currentTheme);
+            if(currentTheme === 'dark') {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const current = root.getAttribute('data-theme');
+            let targetTheme = 'light';
+            
+            if (current !== 'dark') {
+                targetTheme = 'dark';
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+
+            root.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+        });
+    </script>
+</body>
+</html>

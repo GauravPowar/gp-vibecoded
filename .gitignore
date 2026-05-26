@@ -1,0 +1,19 @@
+# Version control ignores for personal site
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE and Editor directories
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Temporary brain logs and configurations
+.gemini/
+.system_generated/
+brain/
+scratch/
+system_generated/

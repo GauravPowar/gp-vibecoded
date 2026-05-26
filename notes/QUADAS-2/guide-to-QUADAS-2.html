@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUADAS-2: The Researcher's Guide</title>
+    <style>
+        :root {
+            --primary: #292929;
+            --secondary: #757575;
+            --accent: #1a8917; /* Medium-style green */
+            --bg: #ffffff;
+            --card-bg: #fbfbfb;
+            --border: #f0f0f0;
+        }
+
+        body {
+            font-family: "Charter", "Georgia", serif;
+            line-height: 1.8;
+            color: var(--primary);
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: var(--bg);
+        }
+
+        h1 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 40px;
+        }
+
+        .section-divider {
+            border-top: 1px solid var(--border);
+            margin: 40px 0;
+        }
+
+        .domain-card {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .instruction {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .logic-panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 4px;
+            font-family: "Menlo", "Monaco", monospace;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .logic-panel strong {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 12px;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .applicability-tag {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-family: "Helvetica Neue", sans-serif;
+            font-size: 15px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .checklist li::before {
+            content: "○";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+    </style>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>How to Critique Diagnostic Evidence</h1>
+        <p class="subtitle">A step-by-step walkthrough using the QUADAS-2 framework.</p>
+    </header>
+
+    <article>
+        <p class="instruction">
+            Assessing a study isn't just about reading the results—it's about verifying the foundation. As you read through your selected paper, use the following logical gates to determine if the findings are reliable or biased.
+        </p>
+
+        <section class="domain-card">
+            <h2>01. Patient Selection</h2>
+            <p>Start by looking at the enrollment process. Was the study prone to "cherry-picking" patients?</p>
+            <ul class="checklist">
+                <li>Was enrollment consecutive or random?</li>
+                <li>Was a case-control design avoided?</li>
+                <li>Were inappropriate exclusions avoided?</li>
+            </ul>
+
+            <div class="logic-panel">
+                <strong>Internal Logic Judgment</strong>
+                Low Risk: \( Q1 \land Q2 \land Q3 \)<br>
+                High Risk: \( \neg Q1 \lor \neg Q2 \lor \neg Q3 \)
+            </div>
+            
+            <p><span class="applicability-tag">Applicability Check:</span> Bias is High if the study used stored samples in a central lab rather than real-world community testing.</p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="domain-card">
+            <h2>02. The Index Test</h2>
+            <p>Focus on how the test was interpreted. The most common pitfall here is the lack of blinding.</p>
+            <ul class="checklist">
+                <li>Were results interpreted without knowledge of the reference standard?</li>
+                <li>Was the diagnostic threshold pre-specified?</li>
+            </ul>
+
+            <div class="logic-panel">
+                <strong>Internal Logic Judgment</strong>
+                Low Risk: \( Q1 \land Q2 \)<br>
+                High Risk: \( \neg Q1 \lor \neg Q2 \)
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="domain-card">
+            <h2>03. The Reference Standard</h2>
+            <p>Is the "Gold Standard" truly reliable?</p>
+            <ul class="checklist">
+                <li>Is the reference standard likely to correctly classify the condition?</li>
+                <li>Was it interpreted without knowledge of the index test?</li>
+            </ul>
+
+            <div class="logic-panel">
+                <strong>Internal Logic Judgment</strong>
+                Low Risk: \( Q1 \land Q2 \)<br>
+                High Risk: \( \neg Q1 \lor \neg Q2 \)
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="domain-card">
+            <h2>04. Flow and Timing</h2>
+            <p>Finally, examine the timeline. Gaps in time can lead to the condition changing before it's verified.</p>
+            <ul class="checklist">
+                <li>Was there an appropriate interval between both tests?</li>
+                <li>Did every patient receive a reference standard?</li>
+                <li>Was the reference standard identical for all patients?</li>
+                <li>Do the numbers in the flow diagram match the final 2x2 table?</li>
+            </ul>
+
+            <div class="logic-panel">
+                <strong>Internal Logic Judgment</strong>
+                Low Risk: \( Q1 \land Q2 \land Q3 \land Q4 \)<br>
+                High Risk: \( \text{count}(\neg Q_i) \geq 2 \)
+            </div>
+
+            
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Selection</th>
+                        <th>Ref (+)</th>
+                        <th>Ref (-)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Index (+)</strong></td>
+                        <td>True Positive (TP)</td>
+                        <td>False Positive (FP)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Index (-)</strong></td>
+                        <td>False Negative (FN)</td>
+                        <td>True Negative (TN)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="instruction" style="font-size: 14px; color: var(--secondary);">
+                <em>Self-Correction: Ensure the total enrolled patients match the sum of TP+FP+FN+TN.</em>
+            </p>
+        </section>
+    </article>
+
+</body>
+</html>
